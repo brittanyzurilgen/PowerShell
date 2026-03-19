@@ -29,6 +29,29 @@ function Show-Menu {
     Write-Host ""
 }
 
+# Main menu loop
+$continue = $true
+ While ($continue){
+    Show-Menu
+    $choice = Read-Host "Enter your choice (1-5)"
+
+    switch ($choice) {
+        "1" { Show-LockedAccounts }
+        "2" { Unlock-UserAccountTool }
+        "3" { Show-ExpiredAccounts }
+        "4" { Show-InactiveAccounts }
+        "5" {Show-NeverLoggedOnUsers }
+        "6" {
+            Write-Host "`nExiting script. Goodbye!" -ForegroundColor Cyan
+            $continue = $false
+        }
+        default {
+            Write-Host "`nInvalid selection. Please enter a number from 1 to 5." -ForegroundColor Red
+            Pause
+        }
+    }
+}
+
 function Show-LockedAccounts {
     Write-Host "`nRetrieving locked accounts..." -ForegroundColor Yellow
 
@@ -129,24 +152,4 @@ function Show-NeverLoggedOnUsers {
     Pause
 }
 
-# Main menu loop
-do {
-    Show-Menu
-    $choice = Read-Host "Enter your choice (1-6)"
 
-    switch ($choice) {
-        "1" { Show-LockedAccounts }
-        "2" { Unlock-UserAccountTool }
-        "3" { Show-ExpiredAccounts }
-        "4" { Show-InactiveAccounts }
-        "5" { Show-NeverLoggedOnUsers }
-        "6" {
-            Write-Host "`nExiting script. Goodbye!" -ForegroundColor Cyan
-        }
-        default {
-            Write-Host "`nInvalid selection. Please enter a number from 1 to 6." -ForegroundColor Red
-            Pause
-        }
-    }
-}
-while ($choice -ne "6")
