@@ -1,3 +1,20 @@
+# ============================================
+# Project: Active Directory Account Audit Toolkit
+# Author: Brittany
+# Description:
+# Menu-driven PowerShell toolkit for common
+# Active Directory account support tasks
+# ============================================
+
+# Check for Active Directory module
+if (-not (Get-Module -ListAvailable -Name ActiveDirectory)) {
+    Write-Host "Active Directory module is not installed or available." -ForegroundColor Red
+    Write-Host "Run this script on a machine with RSAT / AD tools installed." -ForegroundColor Yellow
+    exit
+}
+
+Import-Module ActiveDirectory
+
 function Show-Menu {
     Clear-Host
     Write-Host "============================================" -ForegroundColor Cyan
@@ -10,5 +27,126 @@ function Show-Menu {
     Write-Host "5. Find users that have never logged on"
     Write-Host "6. Exit"
     Write-Host ""
-
 }
+
+function Show-LockedAccounts {
+    Write-Host "`nRetrieving locked accounts..." -ForegroundColor Yellow
+
+    try {
+        $lockedUsers = Search-ADAccount -LockedOut -UsersOnly | Select-Object Name, SamAccountName
+
+        if ($lockedUsers) {
+            $lockedUsers | Format-Table -AutoSize
+        }
+        else {
+            Write-Host "No locked accounts were found." -ForegroundColor Green
+        }
+    }
+    catch {
+        Write-Host "Error retrieving locked accounts: $($_.Exception.Message)" -ForegroundColor Red
+    }
+
+    Pause
+}
+
+function Unlock-UserAccountTool {
+    $username = Read-Host "`nEnter the SamAccountName of the user to unlock"
+
+    try {
+        $user = Get-ADUser -Identity $username -ErrorAction Stop
+        Unlock-ADAccount -Identity $username -ErrorAction Stop
+        Write-Host "Account '$username' has been unlocked successfully." -ForegroundColor Green
+    }
+    catch {
+        Write-Host "Unable to unlock account '$username'." -ForegroundColor Red
+        Write-Host "Verify the username and try again." -ForegroundColor Yellow
+        Write-Host "Error details: $($_.Exception.Message)" -ForegroundColor Yellow
+    }
+
+    Pause
+}
+
+function Show-ExpiredAccounts {
+    Write-Host "`nRetrieving expired accounts..." -ForegroundColor Yellow
+
+    try {
+        $expiredUsers = Search-ADAccount -AccountExpired -UsersOnly | Select-Object Name, SamAccountName
+
+        if ($expiredUsers) {
+            $expiredUsers | Format-Table -AutoSize
+        }
+        else {
+            Write-Host "No expired accounts were found." -ForegroundColor Green
+        }
+    }
+    catch {
+        Write-Host "Error retrieving expired accounts: $($_.Exception.Message)" -ForegroundColor Red
+    }
+
+    Pause
+}
+
+function Show-InactiveAccounts {
+    Write-Host "`nRetrieving inactive accounts older than 30 days..." -ForegroundColor Yellow
+
+    try {
+        $inactiveUsers = Search-ADAccount -AccountInactive -TimeSpan 30.00:00:00 -UsersOnly |
+            Select-Object Name, SamAccountName, LastLogonDate
+
+        if ($inactiveUsers) {
+            $inactiveUsers | Format-Table -AutoSize
+        }
+        else {
+            Write-Host "No inactive accounts older than 30 days were found." -ForegroundColor Green
+        }
+    }
+    catch {
+        Write-Host "Error retrieving inactive accounts: $($_.Exception.Message)" -ForegroundColor Red
+    }
+
+    Pause
+}
+
+function Show-NeverLoggedOnUsers {
+    Write-Host "`nRetrieving users that have never logged on..." -ForegroundColor Yellow
+
+    try {
+        $neverLoggedOnUsers = Get-ADUser -Filter * -Properties LastLogonDate |
+            Where-Object { -not $_.LastLogonDate } |
+            Select-Object Name, SamAccountName
+
+        if ($neverLoggedOnUsers) {
+            $neverLoggedOnUsers | Format-Table -AutoSize
+        }
+        else {
+            Write-Host "No users were found that have never logged on." -ForegroundColor Green
+        }
+    }
+    catch {
+        Write-Host "Error retrieving users that have never logged on: $($_.Exception.Message)" -ForegroundColor Red
+    }
+
+    Pause
+}
+
+# Main menu loop
+do {
+    Show-Menu
+    $choice = Read-Host "Enter your choice (1-6)"
+
+    switch ($choice) {
+        "1" { Show-LockedAccounts }
+        "2" { Unlock-UserAccountTool }
+        "3" { Show-ExpiredAccounts }
+        "4" { Show-InactiveAccounts }
+        "5" { Show-NeverLoggedOnUsers }
+        "6" {
+            Write-Host "`nExiting script. Goodbye!" -ForegroundColor Cyan
+        }
+        default {
+            Write-Host "`nInvalid selection. Please enter a number from 1 to 6." -ForegroundColor Red
+            Pause
+        }
+    }
+}
+while ($choice -ne "6")
