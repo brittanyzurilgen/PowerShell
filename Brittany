@@ -1,0 +1,161 @@
+
+This matches the MSSA guidance to build a practical project and store it in GitHub as part of your portfolio. :contentReference[oaicite:6]{index=6}
+
+---
+
+# 6. PowerPoint outline with speaker notes
+
+Keep it to 6 slides.
+
+## Slide 1: Title
+**Title:** Active Directory Account Audit and Support Toolkit  
+**Subtitle:** MSSA Project Week PowerShell Project  
+**Name:** Brittany
+
+### Speaker notes
+“Today I am presenting my MSSA Project Week PowerShell project, called the Active Directory Account Audit and Support Toolkit. I built this project in an Active Directory lab environment to automate several common account support tasks.”
+
+---
+
+## Slide 2: Problem
+**Bullets:**
+- Active Directory administration includes repetitive account support tasks
+- Manual checks take time
+- PowerShell can automate common account management functions
+
+### Speaker notes
+“One common challenge in Active Directory administration is that support tasks can become repetitive. Administrators often need to find locked accounts, review expired users, or identify inactive accounts. I wanted to create a simple script that makes those tasks faster and more consistent.”
+
+---
+
+## Slide 3: Project Goal
+**Bullets:**
+- Build a beginner-friendly menu-driven PowerShell script
+- Automate common AD user account checks
+- Demonstrate practical scripting skills in a lab
+
+### Speaker notes
+“My goal was to build something small, practical, and easy to explain. I focused on creating a menu-driven script that performs a few real administrative tasks instead of trying to build a large or overly complex solution.”
+
+---
+
+## Slide 4: Features
+**Bullets:**
+- Retrieve all locked accounts
+- Unlock a specific user account
+- Enumerate expired user accounts
+- Identify inactive user accounts older than 30 days
+
+### Speaker notes
+“These are the four functions I built into the script. I chose them because they are common account support tasks and they gave me a chance to practice PowerShell functions, user input, conditional logic, and working with the Active Directory module.”
+
+These features are also directly reflected in the suggestion document. :contentReference[oaicite:7]{index=7}
+
+---
+
+## Slide 5: Tools Used
+**Bullets:**
+- PowerShell 7
+- Visual Studio Code
+- Git
+- GitHub
+- Active Directory lab environment
+
+### Speaker notes
+“To build this project, I used PowerShell 7 as the scripting language, Visual Studio Code as the editor, Git and GitHub for version control and storage, and an Active Directory lab environment for testing and demonstration.”
+
+These tools and setup steps are covered in your setup doc. :contentReference[oaicite:8]{index=8}
+
+---
+
+## Slide 6: Demo and Lessons Learned
+**Bullets:**
+- Demonstrate menu and functions
+- Show how PowerShell supports AD administration
+- Lessons learned:
+  - testing matters
+  - error handling matters
+  - small scope is easier to complete successfully
+
+### Speaker notes
+“For the demo, I will run the script and show each menu option. Through this project I learned that a smaller scope makes it easier to finish successfully, and that testing and error handling are important when working with Active Directory automation.”
+
+---
+
+# 7. Demo script for your presentation
+
+Use this exact talk track.
+
+## Start
+“Today I’ll demonstrate a PowerShell toolkit that supports common Active Directory account tasks.”
+
+## Show the script file
+“This script uses a menu format with four account support options and one exit option.”
+
+## Run option 1
+“This first option retrieves all locked accounts.”
+
+## Run option 2
+“This second option prompts for a username and unlocks that account if it exists.”
+
+## Run option 3
+“This third option displays expired accounts.”
+
+## Run option 4
+“This fourth option displays inactive accounts older than 30 days.”
+
+## Close
+“This project helped me practice practical PowerShell scripting in a real Active Directory lab.”
+
+---
+
+# 8. Tonight’s deadline plan
+
+## Next 30 minutes
+- paste the script into VS Code
+- save it
+- test each function
+
+## Next 30 minutes
+- fix any usernames or lab-specific issues
+- create any needed test accounts
+- confirm all 4 options run
+
+## Next 20 minutes
+- paste the README into GitHub
+- commit your script
+
+## Next 30 minutes
+- build the 6 PowerPoint slides using the outline above
+
+## Final 20 minutes
+- rehearse your demo twice
+
+---
+
+# 9. If something breaks, simplify immediately
+
+If unlocking is giving you trouble, keep the project and present:
+- locked accounts
+- expired accounts
+- inactive accounts
+- plus a placeholder explanation of unlock logic
+
+But try the full version first.
+
+## Most likely issue
+If `Search-ADAccount` or `Get-ADUser` fails, it is usually:
+- AD module not loaded
+- script not running on a machine with AD tools
+- insufficient permissions
+- no matching test data
+
+---
+
+# 10. Best final wording for your project summary
+
+You can say this in class:
+
+> My project is a menu-driven PowerShell toolkit designed to automate common Active Directory account support tasks. It allows an administrator to identify locked, expired, and inactive user accounts and unlock a specific account. I chose this project because it solves practical administrative problems while letting me apply core PowerShell scripting skills in a manageable way.
+
+If you want, I’ll turn this into a **copy-paste PowerPoint slide deck text** next, slide by slide, so you can drop it directly into Teams presentation mode.
