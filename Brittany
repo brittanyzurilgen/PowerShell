@@ -29,7 +29,7 @@ function Show-Menu {
     Write-Host ""
 }
 
-# Main menu loop
+# Main menu loop here
 $continue = $true
  While ($continue){
     Show-Menu
